@@ -43,3 +43,4 @@ Open your terminal / command prompt and run:
 ```bash
 <!-- Verified browser support: Chrome, Edge, Firefox, Safari -->
 git clone [https://github.com/GhulamMustafaAnsari/earthquake-dataset-viewer.git](https://github.com/GhulamMustafaAnsari/earthquake-dataset-viewer.git)
+
