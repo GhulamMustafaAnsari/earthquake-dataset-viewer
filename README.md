@@ -1,30 +1,44 @@
-# Global Seismic Event Explorer (USGS Public Dataset)
+# Global Seismic Event Explorer
 
-A web interface that parses and visualizes real-time global seismic data from the United States Geological Survey (USGS) Earthquake Hazards API.
+An accessible, responsive single-page web application that fetches, aggregates, and visualizes real-time global seismic activity using the United States Geological Survey (USGS) Earthquake Hazards API.
 
-## What This Interface Answers (Beyond Raw JSON)
+---
 
-The raw USGS endpoint provides an unranked array of nested GeoJSON points. This application establishes:
-1. **Dynamic Regional Risk Filtering**: Instantly isolates events above critical perception thresholds (e.g., Magnitude 2.5+ or 4.5+).
-2. **Aggregated Depth and Peak Intensity**: Automatically computes peak registered magnitude and mean hypocenter depth for the filtered selection.
-3. **Location Search**: Fast textual filtering of impacted regions.
+## 1. Prerequisites
 
-## Handling Slow or Failing Remote Sources
+Before running this project, ensure you have the following installed on your machine:
 
-- **Timeout AbortController**: Network calls enforce a 7-second cutoff so slow or unresponsive connections don't cause infinite hangs.
-- **Visual Failure State**: Clear error messaging (`role="alert"`) specifying whether the problem was a timeout or server refusal, with an in-place **Retry Request** button.
-- **Reviewer Simulation**: A one-click **"Simulate Timeout / Fail"** button lets reviewers test error and retry states immediately without code modification.
+- **Web Browser**: Any modern browser supporting ECMAScript 2020+ (Fetch API, AbortController):
+  - Google Chrome version 90.0 or higher
+  - Mozilla Firefox version 88.0 or higher
+  - Apple Safari version 14.1 or higher
+  - Microsoft Edge version 90.0 or higher
+- **Local HTTP Server Runtime (Optional but Recommended)**:
+  - **Node.js**: v18.0.0 or higher (LTS recommended, e.g., v20.x)
+  - **Package Manager**: npm v9.0.0+ (comes bundled with Node.js) or npx
+  - *Alternative*: Python 3.8.0 or higher (for `http.server`)
+- **Git**: version 2.30.0 or higher
 
-## What the Data Does and Does Not Support
+---
 
-- **What it supports**: It accurately reflects recent vibrational events detected and verified by USGS seismic stations within the last 24 hours.
-- **What it does NOT support**: 
-  - It **cannot predict** future seismic events or aftershocks.
-  - It does **not establish structural damage** or casualty metrics (which depend on building standards and population density, not magnitude alone).
-  - It does **not guarantee exhaustive detection** in remote areas with low seismograph sensor density.
+## 2. Environment Variables
 
-## Running Locally
+This application connects directly to the public USGS GeoJSON endpoint which does **not** enforce API key authentication or CORS restrictions.
 
-1. Clone or download this repository:
-   ```bash
-   git clone [https://github.com/](https://github.com/)<your-username>/earthquake-dataset-viewer.git
+| Variable Name | Required? | Default / Fallback Value | Description & Source |
+| :--- | :--- | :--- | :--- |
+| `API_URL` | No | `https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojson` | The public endpoint provided directly by USGS Earthquake Hazards Program. Hardcoded as default constant in `index.html`. |
+| `REQUEST_TIMEOUT_MS` | No | `7000` (7 seconds) | Duration before an active `AbortController` terminates a lagging request. |
+
+*Note: No `.env` file or external secrets management is necessary to run this project.*
+
+---
+
+## 3. How to Clone, Install, and Run Locally
+
+Follow these sequential steps to run the application locally from scratch:
+
+### Step 1: Clone the Repository
+Open your terminal / command prompt and run:
+```bash
+git clone [https://github.com/GhulamMustafaAnsari/earthquake-dataset-viewer.git](https://github.com/GhulamMustafaAnsari/earthquake-dataset-viewer.git)
